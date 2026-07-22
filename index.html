@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samyak Bagra — Software & AI Consulting</title>
+<meta name="description" content="Custom software, AI automation, and digital transformation consulting for established Indian businesses.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #16213e;
+    --navy-deep: #0f1830;
+    --parchment: #f7f3ea;
+    --off-white: #fbfaf7;
+    --brass: #c9a227;
+    --brass-bright: #e0bb3d;
+    --teal: #2f5d62;
+    --charcoal: #1e2022;
+    --line: rgba(30,32,34,0.12);
+    --line-dark: rgba(247,243,234,0.16);
+    --max: 1120px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--parchment);
+    color: var(--charcoal);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3{
+    font-family: 'Space Grotesk', sans-serif;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  a{ color: inherit; }
+  .wrap{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .mono{
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+  ::selection{ background: var(--brass); color: var(--navy-deep); }
+
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Ledger rule (signature element) ---------- */
+  .ledger{
+    display:flex;
+    align-items:center;
+    gap: 14px;
+    color: inherit;
+    opacity: 0.75;
+  }
+  .ledger .folio{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .ledger .rule{
+    flex:1;
+    height: 9px;
+    background-image: repeating-linear-gradient(
+      to right,
+      currentColor 0, currentColor 1px,
+      transparent 1px, transparent 12px
+    );
+    background-position: bottom;
+    background-size: 100% 1px;
+    background-repeat: repeat-x;
+    position: relative;
+  }
+  .ledger .rule::before{
+    content:"";
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height: 9px;
+    background-image: repeating-linear-gradient(
+      to right,
+      currentColor 0, currentColor 1px,
+      transparent 1px, transparent 12px
+    );
+    background-position: bottom;
+    opacity: 1;
+    mask-image: linear-gradient(to bottom, transparent 0%, transparent 0%);
+  }
+  .ledger .ticks{
+    flex:1;
+    height: 10px;
+    background-image:
+      linear-gradient(currentColor, currentColor);
+    background-size: 1px 100%;
+    background-repeat: repeat-x;
+    background-position: bottom;
+    position: relative;
+    border-bottom: 1px solid currentColor;
+  }
+  .ledger .ticks{
+    background-image: repeating-linear-gradient(to right, currentColor 0 1px, transparent 1px 14px);
+    background-position: bottom;
+    background-size: 100% 8px;
+  }
+
+  /* ---------- Nav ---------- */
+  header{
+    position: sticky;
+    top:0;
+    z-index: 50;
+    background: rgba(247,243,234,0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height: 72px;
+  }
+  .brand{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size: 18px;
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+  }
+  .brand .mark{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  nav ul{
+    list-style:none;
+    display:flex;
+    gap: 32px;
+    margin:0; padding:0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  nav ul a{
+    text-decoration:none;
+    padding-bottom: 3px;
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s ease;
+  }
+  nav ul a:hover{ border-color: var(--brass); }
+  .nav-links{ display:flex; align-items:center; gap: 28px; }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    background: var(--navy);
+    color: var(--off-white);
+    text-decoration:none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 11px 20px;
+    border-radius: 3px;
+    transition: background .2s ease, transform .2s ease;
+    border: none;
+    cursor: pointer;
+  }
+  .btn:hover{ background: var(--navy-deep); transform: translateY(-1px); }
+  .btn.ghost{
+    background: transparent;
+    color: var(--navy);
+    border: 1px solid var(--navy);
+  }
+  .btn.ghost:hover{ background: var(--navy); color: var(--off-white); }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background: var(--navy);
+    color: var(--off-white);
+    position: relative;
+    overflow: hidden;
+    padding: 96px 0 72px;
+  }
+  .jaali{
+    position:absolute;
+    inset:0;
+    opacity: 0.16;
+    background-image:
+      linear-gradient(45deg, transparent 46%, var(--brass) 46%, var(--brass) 48%, transparent 48%),
+      linear-gradient(-45deg, transparent 46%, var(--brass) 46%, var(--brass) 48%, transparent 48%);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 70% 60% at 70% 20%, black 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .hero-inner{ position: relative; z-index: 1; }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.12em;
+    color: var(--brass-bright);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .eyebrow::before{
+    content:"";
+    width: 22px; height: 1px;
+    background: var(--brass-bright);
+  }
+  .hero h1{
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 600;
+    line-height: 1.08;
+    max-width: 16ch;
+  }
+  .hero h1 em{
+    font-style: normal;
+    color: var(--brass-bright);
+  }
+  .hero p.sub{
+    max-width: 46ch;
+    font-size: 18px;
+    color: rgba(251,250,247,0.78);
+    margin-top: 26px;
+  }
+  .hero-ctas{
+    margin-top: 40px;
+    display:flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .hero .btn.ghost{
+    color: var(--off-white);
+    border-color: rgba(251,250,247,0.4);
+  }
+  .hero .btn.ghost:hover{ background: rgba(251,250,247,0.1); color: var(--off-white); }
+  .hero .btn.primary{ background: var(--brass); color: var(--navy-deep); }
+  .hero .btn.primary:hover{ background: var(--brass-bright); }
+
+  .hero-stats{
+    margin-top: 64px;
+    display:grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 48px;
+    max-width: fit-content;
+  }
+  .stat .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 26px;
+    color: var(--brass-bright);
+    font-weight: 500;
+  }
+  .stat .label{
+    font-size: 13px;
+    color: rgba(251,250,247,0.6);
+    margin-top: 4px;
+  }
+
+  /* ---------- Sections ---------- */
+  section{ padding: 88px 0; }
+  .section-head{
+    margin-bottom: 56px;
+  }
+  .section-head .ledger{ margin-bottom: 22px; }
+  .section-head h2{
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-weight: 600;
+    max-width: 20ch;
+  }
+  .section-head p{
+    max-width: 56ch;
+    color: rgba(30,32,34,0.68);
+    margin-top: 16px;
+    font-size: 16.5px;
+  }
+
+  /* Thesis / about */
+  .thesis{
+    background: var(--off-white);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .thesis-grid{
+    display:grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .thesis-grid blockquote{
+    margin:0;
+    font-family:'Space Grotesk', sans-serif;
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--navy);
+  }
+  .thesis-grid .body p{ margin: 0 0 16px; color: rgba(30,32,34,0.75); }
+  .thesis-grid .body p:last-child{ margin-bottom:0; }
+
+  /* Services */
+  .services-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .service{
+    background: var(--parchment);
+    padding: 36px 32px 32px;
+    display:flex;
+    flex-direction:column;
+    gap: 16px;
+    transition: background .25s ease;
+  }
+  .service:hover{ background: var(--off-white); }
+  .service .folio{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+  }
+  .service h3{
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .service p{
+    color: rgba(30,32,34,0.68);
+    font-size: 15px;
+    margin: 0;
+  }
+  .service ul{
+    margin: 6px 0 0;
+    padding-left: 18px;
+    font-size: 14px;
+    color: rgba(30,32,34,0.72);
+  }
+  .service ul li{ margin-bottom: 6px; }
+
+  /* Process */
+  .process{ background: var(--navy); color: var(--off-white); }
+  .process .section-head p{ color: rgba(251,250,247,0.65); }
+  .process .ledger{ color: var(--off-white); }
+  .process-list{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+  }
+  .process-item{
+    border-top: 1px solid rgba(251,250,247,0.2);
+    padding-top: 20px;
+  }
+  .process-item .folio-num{
+    font-family:'IBM Plex Mono', monospace;
+    color: var(--brass-bright);
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+  .process-item h3{
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .process-item p{
+    font-size: 14.5px;
+    color: rgba(251,250,247,0.65);
+    margin:0;
+  }
+
+  /* Who this is for */
+  .fit{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+  .fit-card{
+    background: var(--off-white);
+    border: 1px solid var(--line);
+    padding: 32px;
+    border-radius: 4px;
+  }
+  .fit-card h3{
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+  .fit-card.yes h3{ color: var(--teal); }
+  .fit-card.no h3{ color: rgba(30,32,34,0.5); }
+  .fit-card ul{ margin:0; padding-left: 20px; font-size: 15px; }
+  .fit-card li{ margin-bottom: 12px; color: rgba(30,32,34,0.75); }
+  .fit-card.no li{ color: rgba(30,32,34,0.55); }
+
+  /* About */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 220px 1fr;
+    gap: 56px;
+  }
+  .about-mark{
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid var(--line);
+    background: var(--off-white);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Space Grotesk', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--navy);
+    border-radius: 4px;
+  }
+  .about-body p{ color: rgba(30,32,34,0.75); margin: 0 0 16px; }
+  .about-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 10px;
+    margin-top: 22px;
+  }
+  .about-tags span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 3px;
+    color: var(--teal);
+  }
+
+  /* Contact */
+  .contact{
+    background: var(--navy);
+    color: var(--off-white);
+  }
+  .contact-grid{
+    display:grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 56px;
+    align-items:center;
+  }
+  .contact h2{
+    font-size: clamp(1.8rem, 3.4vw, 2.5rem);
+    max-width: 14ch;
+  }
+  .contact p{ color: rgba(251,250,247,0.7); max-width: 42ch; margin-top: 18px; }
+  .contact-card{
+    background: rgba(251,250,247,0.05);
+    border: 1px solid rgba(251,250,247,0.16);
+    padding: 32px;
+    border-radius: 4px;
+  }
+  .contact-row{
+    display:flex;
+    justify-content:space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(251,250,247,0.14);
+    font-size: 14.5px;
+  }
+  .contact-row:last-child{ border-bottom:none; }
+  .contact-row .k{ color: rgba(251,250,247,0.55); font-family:'IBM Plex Mono', monospace; font-size: 13px; }
+  .contact-row a{ text-decoration:none; color: var(--brass-bright); }
+  .contact-row a:hover{ text-decoration: underline; }
+
+  footer{
+    background: var(--navy-deep);
+    color: rgba(251,250,247,0.5);
+    padding: 28px 0;
+    font-size: 13px;
+  }
+  footer .wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+
+  /* Reveal on scroll */
+  .reveal{
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in{ opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+    html{ scroll-behavior: auto; }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px){
+    .thesis-grid, .fit, .about-grid, .contact-grid{ grid-template-columns: 1fr; }
+    .services-grid{ grid-template-columns: 1fr; }
+    .process-list{ grid-template-columns: repeat(2, 1fr); }
+    .about-mark{ width: 96px; height: 96px; font-size: 28px; }
+  }
+  @media (max-width: 640px){
+    nav ul{ display:none; }
+    .hero{ padding: 72px 0 56px; }
+    .hero-stats{ grid-template-columns: repeat(3, auto); gap: 24px; }
+    .process-list{ grid-template-columns: 1fr; }
+    section{ padding: 64px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="brand">Samyak Bagra <span class="mark">SB</span></div>
+    <div class="nav-links">
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <a href="#contact" class="btn">Start a conversation</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="jaali"></div>
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Software &amp; AI Consulting</div>
+    <h1>Traditional business.<br><em>Modern engine.</em></h1>
+    <p class="sub">I build custom software and AI tooling for established Indian businesses — manufacturers, traders, distributors, retailers — so decades of hard-won operations run on systems built for how you actually work, not a template built for someone else.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn primary">Start a conversation</a>
+      <a href="#services" class="btn ghost">See what I build</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="num">10+ yrs</div>
+        <div class="label">engineering large-scale systems</div>
+      </div>
+      <div class="stat">
+        <div class="num">1:1</div>
+        <div class="label">direct engagement, no account layers</div>
+      </div>
+      <div class="stat">
+        <div class="num">0</div>
+        <div class="label">off-the-shelf templates sold as strategy</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="thesis">
+  <div class="wrap">
+    <div class="thesis-grid reveal">
+      <blockquote>"Most software built for small and mid-sized Indian businesses is either too generic to fit, or too complex to run without a full IT department. Neither actually helps."</blockquote>
+      <div class="body">
+        <p>You've built something real — a business that's survived market cycles, family transitions, and competitors who came and went. The gap usually isn't ambition or hard work. It's that the tools running the business are years behind the business itself: WhatsApp groups doing the job of a CRM, Excel doing the job of an ERP, and someone's nephew maintaining the one script that actually works.</p>
+        <p>I build the layer in between — software, automation, and AI tooling sized to your business, written in plain terms, and handed over in a way your team can actually own.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="ledger"><span class="folio mono">Folio 01</span><span class="rule"></span></div>
+      <h2>What I build</h2>
+      <p>Three ways of working together, depending on how far along you are and how much you want to hand off.</p>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service">
+        <div class="folio">01 / CUSTOM SOFTWARE</div>
+        <h3>Custom Software Development</h3>
+        <p>Purpose-built systems for how your business actually runs — not licensed software that forces you to work around it.</p>
+        <ul>
+          <li>Inventory, order, and dealer-network systems</li>
+          <li>Internal tools that replace spreadsheet chaos</li>
+          <li>Integrations between your existing tools</li>
+        </ul>
+      </div>
+      <div class="service">
+        <div class="folio">02 / AI &amp; AUTOMATION</div>
+        <h3>AI &amp; Automation Tooling</h3>
+        <p>Automating the repetitive, error-prone parts of the operation — so your people spend time on the parts that need judgment.</p>
+        <ul>
+          <li>Invoice, ledger, and reconciliation automation</li>
+          <li>WhatsApp / call-center support assistants</li>
+          <li>Demand forecasting and reporting, in plain language</li>
+        </ul>
+      </div>
+      <div class="service">
+        <div class="folio">03 / TRANSFORMATION</div>
+        <h3>Digital Transformation Consulting</h3>
+        <p>A clear, sequenced roadmap for going digital — sized to your team and budget, not a generic enterprise playbook.</p>
+        <ul>
+          <li>Process audit: what's worth digitizing, and what isn't</li>
+          <li>Vendor and build-vs-buy decisions</li>
+          <li>Change management your staff will actually adopt</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process" class="process">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="ledger"><span class="folio mono">Folio 02</span><span class="rule"></span></div>
+      <h2>How an engagement runs</h2>
+      <p>Four stages, in order — each one gates the next, so you're never committing further than you've agreed to.</p>
+    </div>
+    <div class="process-list reveal">
+      <div class="process-item">
+        <div class="folio-num mono">01 — Discover</div>
+        <h3>Walk the floor</h3>
+        <p>I spend time in your actual operation before proposing anything — warehouse, shop floor, back office, wherever the work happens.</p>
+      </div>
+      <div class="process-item">
+        <div class="folio-num mono">02 — Design</div>
+        <h3>Scope in plain terms</h3>
+        <p>A written plan of what gets built, in what order, and what it costs — no jargon, no hidden phases.</p>
+      </div>
+      <div class="process-item">
+        <div class="folio-num mono">03 — Build</div>
+        <h3>Ship in working slices</h3>
+        <p>You see and use working software early and often, not a single reveal at the end of a long build.</p>
+      </div>
+      <div class="process-item">
+        <div class="folio-num mono">04 — Hand off</div>
+        <h3>Your team owns it</h3>
+        <p>Documentation, training, and a support plan your team can run without staying dependent on me.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="ledger"><span class="folio mono">Folio 03</span><span class="rule"></span></div>
+      <h2>Is this a fit?</h2>
+    </div>
+    <div class="fit reveal">
+      <div class="fit-card yes">
+        <h3>Good fit</h3>
+        <ul>
+          <li>An established business (5+ years) looking to modernize, not a pre-revenue startup</li>
+          <li>Operations currently running on spreadsheets, WhatsApp, or patched-together tools</li>
+          <li>You want software owned by your team, not a permanent dependency on an agency</li>
+          <li>You'd rather solve one real bottleneck well than "do digital transformation" broadly</li>
+        </ul>
+      </div>
+      <div class="fit-card no">
+        <h3>Probably not yet</h3>
+        <ul>
+          <li>Looking for a co-founder or equity-based technical partner</li>
+          <li>Need a large team delivered immediately — I work as a focused, senior engagement</li>
+          <li>Want an off-the-shelf SaaS recommendation rather than something built for your process</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="thesis">
+  <div class="wrap">
+    <div class="about-grid reveal">
+      <div class="about-mark">SB</div>
+      <div class="about-body">
+        <div class="ledger" style="margin-bottom:22px;"><span class="folio mono">Folio 04</span><span class="rule"></span></div>
+        <h2 style="margin-bottom:16px;">About Samyak</h2>
+        <p>I'm a software engineer with over a decade of experience building large-scale distributed systems — the kind that run across hundreds of services, handle heavy data and media processing, and can't afford to go down. That background is exactly what most growing Indian businesses are missing access to: engineering discipline that's usually reserved for large enterprises, applied to problems at the scale you actually have.</p>
+        <p>I work directly — no account managers, no bench of juniors learning on your project. What you scope with me is what gets built.</p>
+        <div class="about-tags">
+          <span>Distributed systems</span>
+          <span>ML &amp; AI tooling</span>
+          <span>Cloud infrastructure</span>
+          <span>DevOps</span>
+          <span>Backend engineering</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="contact-grid reveal">
+      <div>
+        <h2>Let's talk about what's slowing your business down.</h2>
+        <p>A first conversation is free and unscripted — bring the actual problem, not a polished pitch. If it's not a fit, I'll tell you plainly.</p>
+      </div>
+      <div class="contact-card">
+        <div class="contact-row">
+          <span class="k">EMAIL</span>
+          <a href="mailto:hello@samyakbagra.com">hello@samyakbagra.com</a>
+        </div>
+        <div class="contact-row">
+          <span class="k">LINKEDIN</span>
+          <a href="#" target="_blank" rel="noopener">linkedin.com/in/samyakbagra</a>
+        </div>
+        <div class="contact-row">
+          <span class="k">LOCATION</span>
+          <span>Bengaluru, India</span>
+        </div>
+        <div class="contact-row">
+          <span class="k">RESPONSE TIME</span>
+          <span>Within 2 business days</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Samyak Bagra</span>
+    <span class="mono">Bengaluru, India</span>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el=> io.observe(el));
+</script>
+
+</body>
+</html>
